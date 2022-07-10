@@ -1,12 +1,23 @@
-//
+/*
+*
+*	kernel.c
+*	The entry point of the kernel
+*
+*/
+
+
+
+
+
+#include "kernel.h"
+#include "../drivers/drivers.h"
+
+
 
 
 
 int main()
 {
-	char* vidmem = (char*) 0xb8000;
-	for(int i = 0; i < (2 * 25 * 80); i += 2)
-		*(vidmem + i) = 0;
-
-	*vidmem = 'X';
+	clear_screen();
+	print("Hello World!\n");
 }
