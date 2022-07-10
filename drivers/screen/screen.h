@@ -14,6 +14,8 @@
 #define COLS 80				// Number of columns
 
 #define WH_BL 0x0f			// White on black color scheme
+#define HTAB_SZ 3			// Horizontal tab size
+#define VTAB_SZ	3			// Vertical tab size
 
 #define REG_SCRN_CTRL 0x03d4		// Screen control register
 #define REG_SCRN_DATA 0x03d5		// Screen data register

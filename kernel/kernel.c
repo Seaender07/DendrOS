@@ -19,5 +19,5 @@
 int main()
 {
 	clear_screen();
-	print("Hello World!\n");
+	print("Hello World!");
 }

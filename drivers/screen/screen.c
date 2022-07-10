@@ -33,11 +33,23 @@ void print_char(char character, int row, int col, char attr_byte)	//	//	//	// Pr
 		offset = get_cursor();							// If negative, select as relative typing offset the current cursor position
 
 
+	int rows = offset / (2 * COLS);							// Get the number of the current row
 
 	if(character == '\n')								// Escape char newline
 	{
-		int rows = offset / (2 * COLS);						// Get the number of the current row
-		offset = get_scrn_offset(rows, 79);					// Set the offset to the ending of the line (increased later on)
+		offset = get_scrn_offset(rows, COLS - 1);				// Set the offset to the ending of the line (increased later on)
+	}
+	else if(character == '\r')							// Escape char carriage return
+	{
+		offset = get_scrn_offset(rows - 1, COLS - 1);				// Set the offset to the ending of the previous line (increased later on)
+	}
+	else if(character == '\t')							// Escape char horizontal tab
+	{
+		offset += (2 * HTAB_SZ);						// Add to the offset the double of the tab size
+	}
+	else if(character == '\v')
+	{
+		offset = get_scrn_offset(rows + VTAB_SZ - 1, COLS - 1);			// Set the offset to the ending of the line before the VTAB_SZ indexed one
 	}
 	else
 	{
