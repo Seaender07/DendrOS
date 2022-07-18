@@ -1,7 +1,7 @@
 /*
 *
 *	screen.c
-*	The screen driver's origin file
+*	The screen driver's source file
 *
 */
 
@@ -32,29 +32,46 @@ void print_char(char character, int row, int col, char attr_byte)	//	//	//	// Pr
 	else
 		offset = get_cursor();							// If negative, select as relative typing offset the current cursor position
 
-
 	int rows = offset / (2 * COLS);							// Get the number of the current row
 
-	if(character == '\n')								// Escape char newline
+	
+	switch(character)
 	{
-		offset = get_scrn_offset(rows, COLS - 1);				// Set the offset to the ending of the line (increased later on)
-	}
-	else if(character == '\r')							// Escape char carriage return
-	{
-		offset = get_scrn_offset(rows - 1, COLS - 1);				// Set the offset to the ending of the previous line (increased later on)
-	}
-	else if(character == '\t')							// Escape char horizontal tab
-	{
-		offset += (2 * HTAB_SZ);						// Add to the offset the double of the tab size
-	}
-	else if(character == '\v')
-	{
-		offset = get_scrn_offset(rows + VTAB_SZ - 1, COLS - 1);			// Set the offset to the ending of the line before the VTAB_SZ indexed one
-	}
-	else
-	{
-		vidmem[offset] = character;						// Print the character
-		vidmem[offset + 1] = attr_byte;						// Set the color scheme byte
+		case '\b':								// Escape char backspace
+			if(offset > 0)							// Execute only if not at the start of the input
+			{
+				offset -= 4;
+				vidmem[offset + 2] = ' ';
+				vidmem[offset + 3] = attr_byte;
+			}
+			else
+				offset -= 2;
+			break;
+
+
+		case '\n':								// Escape char newline
+			offset = get_scrn_offset(rows, COLS - 1);			// Set the offset to the ending of the line (increased later on)
+			break;
+
+
+		case '\r':								// Escape char carriage return
+			offset = get_scrn_offset(rows - 1, COLS - 1);			// Set the offset to the ending of the previous line (increased later on)
+			break;
+
+
+		case '\t':								// Escape char horizontal tab
+			offset += (2 * HTAB_SZ);					// Add to the offset the double of the tab size
+			break;
+
+
+		case '\v':								// Escape the character vertical tab
+			offset = get_scrn_offset(rows + VTAB_SZ - 1, COLS - 1);		// Set the offset to the ending of the line before the VTAB_SZ indexed one
+			break;
+
+
+		default:
+			vidmem[offset] = character;					// Print the character
+			vidmem[offset + 1] = attr_byte;					// Set the color scheme byte
 	}
 
 
@@ -94,6 +111,27 @@ void clear_screen()	//	//	//	//	//	//	//	//	//	// Clears the screen
 		*(vidmem + i) = 0;							// Fill the byte with 0 (NULL)
 
 	set_cursor(get_scrn_offset(0, 0));						// Reset the cursor position to the beginning of the screen
+}
+
+
+
+char scrn_getchar(int offset)	//	//	//	//	//	//	//	//	// Gets a single character from the screen located at 'offset'
+{
+	char *vidmem = (char *)VIDMEM;							// Create a typewise alias of the untyped constant VIDMEM
+
+	return *(vidmem + offset + (offset % 2));					// Return the char at the address 'vidmem' + 'offset', fix odd numbers (do not return color schemes)
+}
+
+
+
+char* scrn_getstr(int soffs, int ccount)	//	//	//	//	//	//	// Gets a c string from the screen counting 'ccount' characters starting from 'offset'
+{
+	static char fstr[2 * COLS * ROWS];						// Allocate a static string for the result (max size = no. of chars on the screen)
+
+	for(int i = 0; i < ccount; i++)							// For 'ccount' times
+		fstr[i] = scrn_getchar(soffs + (2 * i));				// Set as character the char at the starting offset + the double of the current 'ccount' (2B every cell)
+
+	return fstr;									// Return the filled string
 }
 
 

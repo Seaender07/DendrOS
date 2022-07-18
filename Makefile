@@ -22,7 +22,7 @@ start: os-image
 ######################################################################################
 
 %.o : %.c ${HEADERS}
-	gcc -m32 -fno-pie -ffreestanding -c $< -o $@
+	gcc -m32 -fno-pie -fno-stack-protector -ffreestanding -c $< -o $@
 
 %.o : %.asm
 	nasm $< -f elf -o $@

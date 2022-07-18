@@ -33,3 +33,5 @@ void print_char(char character, int row, int col, char attr_byte);		// Prints a 
 void print_at(char* message, int row, int col);					// Prints a string to a defined position
 void print(char* message);							// Prints a string to the current position of the cursor
 void clear_screen();								// Clears the screen
+char scrn_getchar(int offset);							// Gets a single character from the screen located at 'offset'
+char* scrn_getstr(int soffs, int ccount);					// Gets a c string from the screen counting 'ccount' characters starting from 'offset'
