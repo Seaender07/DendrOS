@@ -6,7 +6,7 @@ HEADERS = $(wildcard kernel/*.h kernel/*/*.h drivers/*.h drivers/*/*.h)
 OBJ = ${C_SOURCES:.c=.o}
 
 
-edit: $(wildcard boot/*.asm boot/*/*.asm kernel/*.asm kernel/*.c kernel/*.h drivers/*.c drivers/*.h drivers/*/*.h drivers/*/*.c) Makefile
+edit: $(wildcard boot/*.asm boot/*/*.asm kernel/*.asm kernel/*.c kernel/*.h drivers/*.c drivers/*.h drivers/*/*.h drivers/*/*.c include/*.h) Makefile
 	vim -p $^
 
 kernel/kernel.bin: kernel/kern_entry.o ${OBJ}
@@ -39,3 +39,4 @@ all: os-image
 clean:
 	rm -rf *.bin *.o
 	rm -rf */*.bin */*.o
+	rm -rf */*/*.bin */*/*.o
