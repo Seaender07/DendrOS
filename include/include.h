@@ -7,7 +7,9 @@
 
 
 
-
+#ifndef NULL
+#	define NULL 0x00
+#endif
 
 #ifndef	BUSIO
 #	define BUSIO

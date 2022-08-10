@@ -55,7 +55,18 @@ char sel_bit(char byte, unsigned int selection)
 
 char* cstr_copy(char** dest, char* source)
 {
-	print(bhex_cstr(sizeof(source)));
+	switch(source[0])
+	{
+		case '\0':
+			return "\0";
+			break;
+
+		default:
+			*dest = source;
+			break;
+	}
+
+	return source;
 }
 
 

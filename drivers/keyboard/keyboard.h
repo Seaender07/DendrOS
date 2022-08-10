@@ -17,6 +17,6 @@
 
 
 
-char ascii_key(unsigned char kb_key);				// Converts keyboard's scancodes in ascii characters
-char kb_i_char(int canbs, int ifprint);				// Gets a character from the keyboard device
-char* kb_scan(char* message, unsigned int charno);		// Gets a C string from the keyboard device
+char ascii_key(unsigned char kb_key);					// Converts keyboard's scancodes in ascii characters
+char kb_i_char(int canbs, int ifprint);					// Gets a character from the keyboard device
+char* kb_scan(char* message, unsigned int charno, char** storage);	// Gets a C string from the keyboard device

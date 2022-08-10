@@ -246,7 +246,7 @@ kb_i_char_start:
 
 
 
-char* kb_scan(char* message, unsigned int charno)	//	//	//	//	//	// Gets a C string from the keyboard device
+char* kb_scan(char* message, unsigned int charno, char** storage)//	//	//	//	// Gets a C string from the keyboard device
 {
 	if(message)
 		print(message);								// If some input message is given, print it
@@ -298,6 +298,9 @@ kbsc_swend:
 
 	for(int i = 0; sstr[i] != '\0'; i++)						// Transfer the string to the static one until a NULL char is reached
 		rscan[i] = sstr[i];
+
+	if(storage)
+		cstr_copy(storage, rscan);						// If requested, store the input in 'storage'
 
 	return rscan;									// Return the scanned string
 }

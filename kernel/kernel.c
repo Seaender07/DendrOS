@@ -18,7 +18,11 @@
 int main()
 {
 	clear_screen();
+
 	print("Hello World!\n");
 
-	print(kb_scan("Keyboard driver check: ", 35));
+	char* greet;
+	kb_scan("Keyboard driver check: ", 35, &greet);
+
+	print(greet);
 }
