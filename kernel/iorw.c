@@ -55,18 +55,18 @@ char sel_bit(char byte, unsigned int selection)
 
 char* cstr_copy(char** dest, char* source)
 {
-	switch(source[0])
+	switch(source[0])							// Check whether if the source string exists
 	{
-		case '\0':
+		case '\0':							// Return null if negative
 			return "\0";
 			break;
 
-		default:
+		default:							// Copy string if positive
 			*dest = source;
 			break;
 	}
 
-	return source;
+	return source;								// Return source string
 }
 
 
