@@ -1,4 +1,6 @@
 *.o
 *.bin
 *.swp
+*.vdi
 os-image
+os-image-*

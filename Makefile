@@ -15,8 +15,16 @@ kernel/kernel.bin: kernel/kern_entry.o ${OBJ}
 os-image: boot/boot_sect.bin kernel/kernel.bin
 	cat $^ > $@
 
+os-image-padded: os-image
+	dd if=$< of=$@ bs=100M conv=sync
+
+vm-disk.vdi: os-image-padded
+	vboxmanage convertfromraw $< $@ --format VDI
+
 start: os-image
 	qemu-system-i386 -drive format=raw,file=$< -no-reboot
+
+vmbake: vm-disk.vdi
 
 
 ######################################################################################
@@ -40,3 +48,6 @@ clean:
 	rm -rf *.bin *.o
 	rm -rf */*.bin */*.o
 	rm -rf */*/*.bin */*/*.o
+
+cleanbin:
+	rm -rf os-image os-image-padded *.vdi
