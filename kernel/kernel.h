@@ -23,7 +23,8 @@ void o_read_word(unsigned short port, unsigned short data);		// Write a word to 
 
 void mem_copy(char* source, char* dest, int bytes_no);			// Copy x bytes from a specified location to another
 char sel_bit(char byte, unsigned int selection);			// Returns a single specified bit from a whole byte
-char* cstr_copy(char** dest, char* source);
+char* cstr_copy(char** dest, char* source);				// Copies a C string into another
+char cstr_comp(char* str1, char* str2);					// Compares two C strings
 
 char* bhex_cstr(unsigned char num);					// Writes a hex byte as a C string
 char* char_cstr(char ch);						// Writes a single character as a C string

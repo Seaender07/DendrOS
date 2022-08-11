@@ -23,6 +23,14 @@ int main()
 
 	char* greet;
 	kb_scan("Keyboard driver check: ", 35, &greet);
+	print(greet); print("\n");
 
-	print(greet);
+	if(cstr_comp(greet, "Davide"))
+	{
+		print("Hello!\n");
+	}
+	else
+	{
+		print("Not you.\n");
+	}
 }

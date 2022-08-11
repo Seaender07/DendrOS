@@ -62,11 +62,42 @@ char* cstr_copy(char** dest, char* source)
 			break;
 
 		default:							// Copy string if positive
-			*dest = source;
+			int fsize;
+			for(fsize = 0; source[fsize] >= 0x20;)			// Find the size of the source string
+				fsize++;
+
+			char cpmedium[fsize + 1];				// Create a copy medium of 'fsize' + 1 (null char) bytes
+
+			for(int i = 0; i < fsize; i++)				// Copy char by char
+				cpmedium[i] = source[i];
+			
+			*dest = source;						// Copy with the right formatting and size
 			break;
 	}
 
 	return source;								// Return source string
+}
+
+char cstr_comp(char* str1, char* str2)
+{
+	char doMatch = 1;							// Holds the value of the previous comparison
+
+	for(int i = 0; doMatch == 1; i++)					// Iterate until the chars do not match anymore
+	{
+		if(str1[i] >= 0x20 && str2[i] >= 0x20)				// Compare only if both chars are not escapes
+		{
+			if(str1[i] == str2[i])
+				doMatch = 1;
+			else
+				doMatch = 0;
+		}
+		else if(str1[i] == 0x00 && str2[i] == 0x00)			// If both chars are 0, end is reached
+			break;
+		else								// If one of the two is null (ended), strings do not match entirely
+			doMatch = 0;
+	}
+
+	return doMatch;								// Return the comparison result
 }
 
 
